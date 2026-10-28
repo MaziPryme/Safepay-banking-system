@@ -19,6 +19,8 @@ import Signup from "../pages/auth/Signup"
 import AdminBanks from "../pages/admin/banks"
 import AdminBranches from "../pages/admin/branches/Branches"
 import AdminUsers from "../pages/admin/user/index"
+import CustomerDashboard from "../pages/customer/dashboard"
+import BankAdminDashboard from "../pages/bankAdmin/dashboard"
 
 
 
@@ -42,6 +44,7 @@ export default function AppRoutes() {
             </Route>
 
             {/* Admin Routes */}
+
             <Route element={<ProtectedRoute />}>
                 <Route element={<RoleBasedRoute />} allowedRoles={[ROLES.ADMIN]}>
                     <Route path="/admin" element={<DashboardLayout />}>
@@ -49,12 +52,21 @@ export default function AppRoutes() {
                         <Route path="banks" element={<AdminBanks />} />
                         <Route path="branches" element={<AdminBranches />} />
                         <Route path="users" element={<AdminUsers />} />
-                        
                     </Route>
                 </Route>
+                <Route element={<RoleBasedRoute />} allowedRoles={[ROLES.CUSTOMER]}>
+                    <Route path="/customer" element={<DashboardLayout />}>
+                        <Route path="dashboard" element={<CustomerDashboard />} />
 
+                    </Route>
+                </Route>
+                <Route element={<RoleBasedRoute />} allowedRoles={[ROLES.BANK_ADMIN]}>
+                    <Route path="/bank-admin" element={<DashboardLayout />}>
+                        <Route path="dashboard" element={<BankAdminDashboard />} />
+
+                    </Route>
+                </Route>
             </Route>
-
             <Route path="*" element={<NotFound />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
